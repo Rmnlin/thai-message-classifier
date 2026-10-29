@@ -1,0 +1,9 @@
+pythainlp
+scikit-learn
+pandas
+numpy
+datasets
+matplotlib
+seaborn
+joblib
+gradio
