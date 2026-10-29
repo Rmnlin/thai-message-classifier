@@ -222,3 +222,5 @@ __marimo__/
 # project
 cache_tfidf/
 *.joblib
+
+docs/
