@@ -10,17 +10,14 @@ train = pd.DataFrame(ds["train"])
 val = pd.DataFrame(ds["validation"])
 test = pd.DataFrame(ds["test"])
 print("จำนวนแถว:", train.shape, val.shape, test.shape)
-print("ค่าที่ขาดหาย:", train.isna().sum().sum(),
-val.isna().sum().sum(), test.isna().sum().sum())
+print("ค่าที่ขาดหาย:", train.isna().sum().sum(), val.isna().sum().sum(), test.isna().sum().sum())
 
 # 2) นับจำนวนแต่ละป้าย และสัดส่วน (%)
 counts = pd.DataFrame({
-    "train":
-train["category"].value_counts().sort_index(),
-    "validation":
-  val["category"].value_counts().sort_index(),
+    "train": train["category"].value_counts().sort_index(),
+    "validation": val["category"].value_counts().sort_index(),
     "test": test["category"].value_counts().sort_index(),
-  })
+})
 counts.index = label_names
 print("\nจำนวนแต่ละป้าย")
 print(counts)
@@ -52,7 +49,12 @@ print("Test ที่ซ้ำกับ Validation:", test["texts"].isin(val["te
 conflict = train.groupby("texts")["category"].transform("nunique") > 1
 print("แถวที่ข้อความซ้ำและlabelต่างกัน:", conflict.sum())
 
-# 6) ตัวอย่างข้อความแต่ละ label label ละ 3 ข้อความ
+# 6) ตัวอย่างข้อความซ้ำที่labelต่างกัน
+dup_train = train[train["texts"].duplicated(keep=False)].sort_values("texts")
+print("\nข้อความซ้ำใน Train")
+print(dup_train[["texts", "category"]])
+
+# 7) ตัวอย่างข้อความแต่ละ label label ละ 3 ข้อความ
 for lab in range(4):
     print()
     print(label_names[lab])
