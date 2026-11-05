@@ -53,7 +53,7 @@ print("กลุ่มทั้งหมด:", len(groups), " กลุ่มท
 print("แบ่งไว้ชุด B:", len(holdout_b), " เหลือไว้เทรน:", len(custom_train))
 print(holdout_b["label"].value_counts())
 
-# 5) แปลง Wisesight ให้มีคอลัมน์ text, label เหมือนชุดที่จัดทำเองแล้วบันทึก
+# 5) แปลง Wisesight ให้มีคอลัมน์ text, label เหมือนชุดที่จัดทำเอง
 def to_text_label(df):
     out = pd.DataFrame()
     out["text"] = df["texts"]
