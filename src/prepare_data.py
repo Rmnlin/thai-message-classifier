@@ -26,7 +26,7 @@ train_clean = train_clean.drop(drop_conflict, errors="ignore")
 print("ก่อนลบ:", len(train), "หลังลบ:", len(train_clean))
 
 # 2. โหลดชุดที่จัดทำเอง และคลีนกลุ่ม IB
-custom = pd.read_csv("data/custom/custom_data.csv", encoding="utf-8-sig")
+custom = pd.read_csv("data/custom_data.csv", encoding="utf-8-sig")
 print("ชุดที่จัดทำเอง:", len(custom))
 
 keep_ib = ["IB แล้วค่ะ", "Inbox แล้วนะคะ", "ทักไปละครับ", "ib ไปเรียบร้อยคับ"]
