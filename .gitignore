@@ -227,3 +227,4 @@ docs/
 data/wisesight_train_clean.csv
 data/wisesight_val.csv
 data/wisesight_test.csv
+submission/
