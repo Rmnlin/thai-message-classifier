@@ -21,7 +21,7 @@
 - notebook ใน notebooks/ เป็นบันทึก EDA ขั้นที่ 1 ไม่ส่งอาจารย์ (อาจารย์รับโค้ด .py เท่านั้น)
 - src/prepare_data.py โหลด Wisesight จาก Hugging Face แล้วบันทึกเป็น CSV ใน data/
   ไฟล์ data/wisesight_*.csv อยู่ใน .gitignore ห้าม commit (ใส่ใน zip ส่งอาจารย์ได้)
-- ไฟล์ข้อมูลที่จัดทำเองอยู่ใน data/custom/ คอลัมน์: text, label, source, group_id
+- ไฟล์ข้อมูลที่จัดทำเองคือ data/custom_data.csv คอลัมน์: text, label, source, group_id (กติกาติดป้ายและแหล่งที่มาอยู่ใน data/custom/)
 - ชุดประโยคดัดแปลง A/B อยู่ใน data/modified_test.csv คอลัมน์: text, label, set, original_group_id
 
 ## การทำงาน
