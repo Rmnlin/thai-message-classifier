@@ -15,8 +15,8 @@
 
 ## โครงโค้ด
 - thai_tokenize อยู่ใน src/ เป็นฟังก์ชันที่มีชื่อ (ไม่ใช้ lambda)
-  เพื่อให้บันทึกด้วย joblib แล้วโหลดใน Gradio ได้
-- โค้ด .py ทั้งหมดอยู่ใน src/ (tokenizer.py, prepare_data.py, train.py, app.py ที่เป็น Gradio)
+  เพื่อให้บันทึกด้วย joblib แล้วโหลดใน app.py ได้
+- โค้ด .py ทั้งหมดอยู่ใน src/ (tokenizer.py, prepare_data.py, train.py, app.py ที่รับข้อความจากเทอร์มินัล)
   รันจากโฟลเดอร์ repo เช่น `.venv\Scripts\python.exe src\train.py`
 - notebook ใน notebooks/ เป็นบันทึก EDA ขั้นที่ 1 ไม่ส่งอาจารย์ (อาจารย์รับโค้ด .py เท่านั้น)
 - src/prepare_data.py โหลด Wisesight จาก Hugging Face แล้วบันทึกเป็น CSV ใน data/
