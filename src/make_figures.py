@@ -147,7 +147,7 @@ arrow(ax, 0.5, 0.2325, 0.5, 0.1975)
 box(ax, 0.5, 0.16, 0.84, 0.075, "7. ส่งต่อทีมตามกฎ (หัวข้อ 4.4)", teams[label])
 
 ax.text(0.03, 0.075, "ขั้นที่ 2–5 อยู่ใน Pipeline เดียว เรียนรู้ (fit) จากข้อมูล Train เท่านั้น\n"
-        "แล้วบันทึกเป็น models/model.joblib ให้แอป Gradio โหลดไปใช้",
+        "แล้วบันทึกเป็น models/model.joblib ให้ app.py โหลดไปใช้",
         fontsize=9.5, color="#52514e", va="top")
 
 fig.savefig("figures/pipeline.png", facecolor="#fcfcfb", bbox_inches="tight")
