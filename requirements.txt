@@ -6,4 +6,3 @@ datasets==5.1.0
 matplotlib==3.11.2
 seaborn==0.13.2
 joblib==1.6.0
-gradio==6.31.0
