@@ -198,6 +198,6 @@ for _, row in wrong_mod.iterrows():
         print("  ต้นฉบับ:", t)
 
 
-# 5 บันทึกโมเดลหลักเป็นไฟล์ ให้เว็บ Gradio ใน src/app.py โหลดไปใช้
+# 5 บันทึกโมเดลหลักเป็นไฟล์ ให้ src/app.py โหลดไปใช้
 joblib.dump(model_plus, "models/model.joblib")
 print("บันทึกโมเดลที่ models/model.joblib แล้ว")
