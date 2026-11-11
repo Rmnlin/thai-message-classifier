@@ -1,6 +1,5 @@
 import os
 import joblib
-import gradio as gr
 from tokenizer import clean_text, clean_and_tokenize
 
 # ย้ายไปโฟลเดอร์โปรเจกต์ก่อน เพื่อให้หาไฟล์ใน data/ และ models/ เจอเสมอ
@@ -34,22 +33,13 @@ def classify(text):
     return f"{label} ({label_names[label]})", teams[label]
 
 
-demo = gr.Interface(
-    fn=classify,
-    inputs=gr.Textbox(label="ข้อความ", lines=3),
-    outputs=[
-        gr.Textbox(label="ประเภทข้อความ"),
-        gr.Textbox(label="ทีมที่ควรรับเรื่อง"),
-    ],
-    title="จำแนกข้อความโซเชียลภาษาไทย",
-    description="พิมพ์ข้อความ ระบบจะทายประเภท (pos / neu / neg / q) และบอกทีมที่ควรรับเรื่อง",
-    examples=[
-        ["ราคาเท่าไหร่ครับ"],
-        ["ส่งของช้ามาก ทักไปก็ไม่ตอบ"],
-        ["อร่อยมาก ชอบสุดๆ"],
-        ["วันนี้ไปทำงานตามปกติ"],
-    ],
-)
-
 if __name__ == "__main__":
-    demo.launch()
+    print("พิมพ์ข้อความแล้วกด Enter (กด Enter เปล่าเพื่อออก)")
+    while True:
+        text = input("ข้อความ: ")
+        if text.strip() == "":
+            break
+        result, team = classify(text)
+        print("ประเภท:", result)
+        print("ทีมที่ควรรับเรื่อง:", team)
+        print()
