@@ -16,16 +16,12 @@ train = pd.read_csv("data/wisesight_train_clean.csv")
 val = pd.read_csv("data/wisesight_val.csv")
 test = pd.read_csv("data/wisesight_test.csv")
 custom_train = pd.read_csv("data/custom_train.csv")
-custom_holdout_b = pd.read_csv("data/custom_holdout_b.csv")
-modified_test = pd.read_csv("data/modified_test.csv")
 
 # 1.2 คลีนคอลัมน์ text ของทุกชุดด้วยฟังก์ชันเดียวกัน
 train["text"] = train["text"].apply(clean_text)
 val["text"] = val["text"].apply(clean_text)
 test["text"] = test["text"].apply(clean_text)
 custom_train["text"] = custom_train["text"].apply(clean_text)
-custom_holdout_b["text"] = custom_holdout_b["text"].apply(clean_text)
-modified_test["text"] = modified_test["text"].apply(clean_text)
 
 # 1.3 ลบแถวใน Train และ custom_train ที่ข้อความซ้ำกับ Val หรือ Test โดยไม่แตะ Val/Test
 eval_texts = list(val["text"]) + list(test["text"])
@@ -154,19 +150,8 @@ for name, m in [("ไม่เพิ่ม custom", model), ("เพิ่ม cu
 print("Train macro-F1 (ไม่เพิ่ม custom):", f1_score(train["label"], model.predict(train["text"]), average="macro"))
 print("Train macro-F1 (เพิ่ม custom):", f1_score(train_plus["label"], model_plus.predict(train_plus["text"]), average="macro"))
 
-# 3.4 ชุดประโยคดัดแปลง A มาจากประโยคที่เคยเทรน B มาจากประโยคที่ไม่เคยเห็น นับว่าทายถูกกี่ข้อ
-for name, m in [("ไม่เพิ่ม custom", model), ("เพิ่ม custom", model_plus)]:
-    for s in ["A", "B"]:
-        part = modified_test[modified_test["set"] == s]
-        pred = m.predict(part["text"])
-        right = 0
-        for p, y in zip(pred, part["label"]):
-            if p == y:
-                right = right + 1
-        print(name, "ชุด", s, "ถูก", right, "/", len(part), "=", round(right / len(part) * 100, 1), "%")
 
-
-# 4.1 ดูว่าโมเดลใช้คำไหนตัดสินแต่ละประเภทมากที่สุด แสดง 15 คำแรกของแต่ละประเภท
+# 4 ดูว่าโมเดลใช้คำไหนตัดสินแต่ละประเภทมากที่สุด แสดง 15 คำแรกของแต่ละประเภท
 names = model_plus.named_steps["tfidf"].get_feature_names_out()
 svm_main = model_plus.named_steps["svm"]
 for i, label in enumerate(svm_main.classes_):
@@ -175,27 +160,6 @@ for i, label in enumerate(svm_main.classes_):
     print("==== คำสำคัญของ", label, "====")
     for weight, word in pairs[:15]:
         print(round(weight, 3), word)
-
-# 4.2 สุ่มดูข้อความใน Validation ที่ทายผิด คู่ละ 10 ข้อ จาก 3 คู่ที่สับสนบ่อยที่สุด
-val_check = val.copy()
-val_check["pred"] = pred_plus
-for true_label, pred_label in [("pos", "neu"), ("neu", "pos"), ("q", "neu")]:
-    wrong = val_check[(val_check["label"] == true_label) & (val_check["pred"] == pred_label)]
-    print("==== ป้ายจริง", true_label, "ทายเป็น", pred_label, ":", len(wrong), "ข้อ ====")
-    for t in wrong.sample(min(10, len(wrong)), random_state=42)["text"]:
-        print(t)
-
-# 4.3 ประโยคชุด A/B ที่ทายผิด แสดงคู่กับต้นฉบับ เพื่อดูว่าคำสำคัญถูกเปลี่ยนไหม
-originals = pd.concat([custom_train, custom_holdout_b])
-mod_check = modified_test.copy()
-mod_check["pred"] = model_plus.predict(mod_check["text"])
-wrong_mod = mod_check[mod_check["pred"] != mod_check["label"]]
-for _, row in wrong_mod.iterrows():
-    print("ชุด", row["set"], "| ป้ายจริง", row["label"], "| ทาย", row["pred"])
-    print("  ดัดแปลง:", row["text"])
-    src = originals[originals["group_id"] == row["original_group_id"]]
-    for t in src["text"]:
-        print("  ต้นฉบับ:", t)
 
 
 # 5 บันทึกโมเดลหลักเป็นไฟล์ ให้ src/app.py โหลดไปใช้
